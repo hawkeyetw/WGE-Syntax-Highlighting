@@ -60,21 +60,7 @@ code --install-extension seclang-vscode-1.0.0.vsix
 
 ## 文件关联
 
-插件会自动识别以下文件：
-
-- `*.seclang`、`*.modsec` 扩展名
-- `modsecurity.conf`、`crs-setup.conf` 等特定文件名
-
-`.conf` 不做自动关联，防止和 Nginx/Apache 等配置文件冲突。如果你的规则文件用的是 `.conf` 后缀，手动加一下关联就行：
-
-```json
-{
-  "files.associations": {
-    "waf-rules.conf": "seclang",
-    "*.modsecurity.conf": "seclang"
-  }
-}
-```
+自动识别 `.conf`、`.seclang`、`.modsec` 扩展名。
 
 ## 配置项
 

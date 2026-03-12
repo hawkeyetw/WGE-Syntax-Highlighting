@@ -38,14 +38,9 @@
           "seclang"
         ],
         "extensions": [
+          ".conf",
           ".seclang",
           ".modsec"
-        ],
-        "filenames": [
-          "modsecurity.conf",
-          "crs-setup.conf",
-          "modsec_rules.conf",
-          "custom-rules.conf"
         ],
         "configuration": "./language-configuration.json"
       }
