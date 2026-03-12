@@ -1,0 +1,276 @@
+{
+  "SecRule Basic": {
+    "prefix": "secrule",
+    "body": [
+      "SecRule ${1:ARGS} \"${2:@rx pattern}\" \\",
+      "    \"id:${3:100001},\\",
+      "    phase:${4|1,2,3,4,5|},\\",
+      "    ${5|deny,pass,block,allow,drop|},\\",
+      "    status:${6:403},\\",
+      "    log,\\",
+      "    msg:'${7:Rule description}'\""
+    ],
+    "description": "Create a basic SecRule"
+  },
+  "SecRule Chain": {
+    "prefix": "secrule-chain",
+    "body": [
+      "SecRule ${1:ARGS} \"${2:@rx pattern}\" \\",
+      "    \"id:${3:100001},\\",
+      "    phase:${4|1,2,3,4,5|},\\",
+      "    ${5|deny,pass,block|},\\",
+      "    chain,\\",
+      "    msg:'${6:Chained rule}'\"",
+      "    SecRule ${7:MATCHED_VAR} \"${8:@rx pattern2}\" \\",
+      "        \"t:none\""
+    ],
+    "description": "Create a chained SecRule"
+  },
+  "SecRule SQL Injection": {
+    "prefix": "secrule-sqli",
+    "body": [
+      "SecRule ${1|ARGS,REQUEST_BODY,QUERY_STRING|} \"@detectSQLi\" \\",
+      "    \"id:${2:100001},\\",
+      "    phase:2,\\",
+      "    deny,\\",
+      "    status:403,\\",
+      "    log,\\",
+      "    msg:'SQL Injection Attack Detected',\\",
+      "    tag:'attack-sqli',\\",
+      "    tag:'OWASP_CRS',\\",
+      "    severity:'CRITICAL'\""
+    ],
+    "description": "Create a SQL injection detection rule"
+  },
+  "SecRule XSS": {
+    "prefix": "secrule-xss",
+    "body": [
+      "SecRule ${1|ARGS,REQUEST_BODY,QUERY_STRING|} \"@detectXSS\" \\",
+      "    \"id:${2:100001},\\",
+      "    phase:2,\\",
+      "    deny,\\",
+      "    status:403,\\",
+      "    log,\\",
+      "    msg:'XSS Attack Detected',\\",
+      "    tag:'attack-xss',\\",
+      "    tag:'OWASP_CRS',\\",
+      "    severity:'CRITICAL'\""
+    ],
+    "description": "Create a XSS detection rule"
+  },
+  "SecRule IP Block": {
+    "prefix": "secrule-ipblock",
+    "body": [
+      "SecRule REMOTE_ADDR \"@ipMatch ${1:192.168.1.0/24}\" \\",
+      "    \"id:${2:100001},\\",
+      "    phase:1,\\",
+      "    ${3|deny,allow|},\\",
+      "    status:403,\\",
+      "    log,\\",
+      "    msg:'IP Address ${4:blocked/allowed}'\""
+    ],
+    "description": "Create an IP-based rule"
+  },
+  "SecRule Rate Limit": {
+    "prefix": "secrule-ratelimit",
+    "body": [
+      "SecAction \\",
+      "    \"id:${1:100001},\\",
+      "    phase:1,\\",
+      "    nolog,\\",
+      "    pass,\\",
+      "    initcol:ip=%{REMOTE_ADDR}\"",
+      "",
+      "SecRule IP:REQUEST_COUNT \"@gt ${2:100}\" \\",
+      "    \"id:${3:100002},\\",
+      "    phase:2,\\",
+      "    deny,\\",
+      "    status:429,\\",
+      "    log,\\",
+      "    msg:'Rate limit exceeded'\"",
+      "",
+      "SecRule IP:REQUEST_COUNT \"@eq 0\" \\",
+      "    \"id:${4:100003},\\",
+      "    phase:2,\\",
+      "    nolog,\\",
+      "    pass,\\",
+      "    setvar:ip.request_count=1,\\",
+      "    expirevar:ip.request_count=${5:60}\""
+    ],
+    "description": "Create a rate limiting rule set"
+  },
+  "SecAction": {
+    "prefix": "secaction",
+    "body": [
+      "SecAction \\",
+      "    \"id:${1:100001},\\",
+      "    phase:${2|1,2,3,4,5|},\\",
+      "    nolog,\\",
+      "    pass,\\",
+      "    ${3:setvar:tx.variable=value}\""
+    ],
+    "description": "Create a SecAction"
+  },
+  "SecMarker": {
+    "prefix": "secmarker",
+    "body": [
+      "SecMarker \"${1:MARKER_NAME}\""
+    ],
+    "description": "Create a SecMarker for skipAfter"
+  },
+  "SecRule with skipAfter": {
+    "prefix": "secrule-skip",
+    "body": [
+      "SecRule ${1:ARGS} \"${2:@rx pattern}\" \\",
+      "    \"id:${3:100001},\\",
+      "    phase:${4|1,2,3,4,5|},\\",
+      "    pass,\\",
+      "    nolog,\\",
+      "    skipAfter:${5:END_MARKER}\"",
+      "",
+      "# Rules to skip...",
+      "",
+      "SecMarker \"${5:END_MARKER}\""
+    ],
+    "description": "Create a rule with skipAfter"
+  },
+  "SecDefaultAction": {
+    "prefix": "secdefaultaction",
+    "body": [
+      "SecDefaultAction \"phase:${1|1,2,3,4,5|},log,auditlog,${2|pass,deny|}\""
+    ],
+    "description": "Set default action for rules"
+  },
+  "SecRuleEngine": {
+    "prefix": "secruleengine",
+    "body": [
+      "SecRuleEngine ${1|On,Off,DetectionOnly|}"
+    ],
+    "description": "Configure rule engine mode"
+  },
+  "Basic ModSecurity Config": {
+    "prefix": "modsec-config",
+    "body": [
+      "# ModSecurity Configuration",
+      "SecRuleEngine ${1|On,DetectionOnly|}",
+      "",
+      "# Request body handling",
+      "SecRequestBodyAccess On",
+      "SecRequestBodyLimit 13107200",
+      "SecRequestBodyNoFilesLimit 131072",
+      "SecRequestBodyLimitAction Reject",
+      "",
+      "# Response body handling",
+      "SecResponseBodyAccess On",
+      "SecResponseBodyMimeType text/plain text/html text/xml",
+      "SecResponseBodyLimit 524288",
+      "",
+      "# Audit logging",
+      "SecAuditEngine RelevantOnly",
+      "SecAuditLog ${2:/var/log/modsec_audit.log}",
+      "SecAuditLogParts ABIJDEFHZ",
+      "SecAuditLogType Serial",
+      "",
+      "# Debug logging",
+      "SecDebugLog ${3:/var/log/modsec_debug.log}",
+      "SecDebugLogLevel 0"
+    ],
+    "description": "Basic ModSecurity configuration template"
+  },
+  "SecRule Anomaly Score": {
+    "prefix": "secrule-anomaly",
+    "body": [
+      "SecRule ${1:ARGS} \"${2:@rx pattern}\" \\",
+      "    \"id:${3:100001},\\",
+      "    phase:2,\\",
+      "    pass,\\",
+      "    log,\\",
+      "    msg:'${4:Anomaly detected}',\\",
+      "    setvar:'tx.anomaly_score=+%{tx.${5:critical}_anomaly_score}',\\",
+      "    setvar:'tx.%{rule.id}-${6:ATTACK_TYPE}-%{matched_var_name}=%{matched_var}'\""
+    ],
+    "description": "Create an anomaly scoring rule"
+  },
+  "SecRule File Upload": {
+    "prefix": "secrule-upload",
+    "body": [
+      "SecRule FILES_NAMES \"@rx \\\\.${1:(php|jsp|asp|exe|sh|pl)}$$\" \\",
+      "    \"id:${2:100001},\\",
+      "    phase:2,\\",
+      "    deny,\\",
+      "    status:403,\\",
+      "    log,\\",
+      "    msg:'Dangerous file upload attempt',\\",
+      "    tag:'attack-upload',\\",
+      "    severity:'CRITICAL'\""
+    ],
+    "description": "Create a file upload validation rule"
+  },
+  "SecRule Path Traversal": {
+    "prefix": "secrule-lfi",
+    "body": [
+      "SecRule ${1|ARGS,REQUEST_URI,QUERY_STRING|} \"@rx (?i)(\\\\.\\\\./|\\\\.\\\\.\\\\\\\\|%2e%2e%2f|%2e%2e/)\" \\",
+      "    \"id:${2:100001},\\",
+      "    phase:2,\\",
+      "    deny,\\",
+      "    status:403,\\",
+      "    log,\\",
+      "    msg:'Path Traversal Attack Detected',\\",
+      "    tag:'attack-lfi',\\",
+      "    severity:'CRITICAL'\""
+    ],
+    "description": "Create a path traversal detection rule"
+  },
+  "SecRule Command Injection": {
+    "prefix": "secrule-rce",
+    "body": [
+      "SecRule ${1|ARGS,REQUEST_BODY|} \"@rx (?i)(;|\\\\||\\`|\\\\$\\\\(|&&|\\\\|\\\\|)\\\\s*(?:cat|ls|pwd|wget|curl|bash|sh|nc|netcat|perl|python|ruby|php)\" \\",
+      "    \"id:${2:100001},\\",
+      "    phase:2,\\",
+      "    deny,\\",
+      "    status:403,\\",
+      "    log,\\",
+      "    msg:'Command Injection Attack Detected',\\",
+      "    tag:'attack-rce',\\",
+      "    severity:'CRITICAL'\""
+    ],
+    "description": "Create a command injection detection rule"
+  },
+  "Include": {
+    "prefix": "include",
+    "body": [
+      "Include ${1:rules/*.conf}"
+    ],
+    "description": "Include configuration files"
+  },
+  "SecRuleRemoveById": {
+    "prefix": "secruleremove",
+    "body": [
+      "SecRuleRemoveById ${1:rule_id}"
+    ],
+    "description": "Remove a rule by ID"
+  },
+  "SecRuleUpdateTargetById": {
+    "prefix": "secruleupdatetarget",
+    "body": [
+      "SecRuleUpdateTargetById ${1:rule_id} \"!${2:ARGS:parameter}\""
+    ],
+    "description": "Update rule target to exclude a variable"
+  },
+  "SecGeoLookup": {
+    "prefix": "secgeolookup",
+    "body": [
+      "SecGeoLookupDb ${1:/usr/share/GeoIP/GeoLite2-Country.mmdb}",
+      "",
+      "SecRule REMOTE_ADDR \"@geoLookup\" \\",
+      "    \"chain,\\",
+      "    id:${2:100001},\\",
+      "    phase:1,\\",
+      "    deny,\\",
+      "    log,\\",
+      "    msg:'Blocked country'\"",
+      "    SecRule GEO:COUNTRY_CODE \"@pm ${3:CN RU}\" \"\""
+    ],
+    "description": "Create a geo-blocking rule"
+  }
+}

@@ -1,0 +1,229 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "SecLang",
+  "scopeName": "source.seclang",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#directives" },
+    { "include": "#rules" },
+    { "include": "#variables" },
+    { "include": "#operators" },
+    { "include": "#actions" },
+    { "include": "#transformations" },
+    { "include": "#strings" },
+    { "include": "#numbers" },
+    { "include": "#regex" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.number-sign.seclang",
+          "match": "#.*$"
+        }
+      ]
+    },
+    "directives": {
+      "patterns": [
+        {
+          "name": "keyword.control.directive.seclang",
+          "match": "\\b(SecRule|SecAction|SecMarker|SecRuleScript)\\b"
+        },
+        {
+          "name": "keyword.control.directive.config.seclang",
+          "match": "\\b(SecRuleEngine|SecRequestBodyAccess|SecRequestBodyLimit|SecRequestBodyNoFilesLimit|SecRequestBodyLimitAction|SecRequestBodyJsonDepthLimit|SecRequestBodyInMemoryLimit|SecResponseBodyAccess|SecResponseBodyMimeType|SecResponseBodyMimeTypesClear|SecResponseBodyLimit|SecResponseBodyLimitAction)\\b"
+        },
+        {
+          "name": "keyword.control.directive.audit.seclang",
+          "match": "\\b(SecAuditEngine|SecAuditLog|SecAuditLog2|SecAuditLogParts|SecAuditLogType|SecAuditLogRelevantStatus|SecAuditLogStorageDir|SecAuditLogFormat|SecAuditLogDirMode|SecAuditLogFileMode|SecAuditLogPrefix)\\b"
+        },
+        {
+          "name": "keyword.control.directive.debug.seclang",
+          "match": "\\b(SecDebugLog|SecDebugLogLevel)\\b"
+        },
+        {
+          "name": "keyword.control.directive.update.seclang",
+          "match": "\\b(SecRuleRemoveById|SecRuleRemoveByMsg|SecRuleRemoveByTag|SecRuleUpdateActionById|SecRuleUpdateTargetById|SecRuleUpdateTargetByMsg|SecRuleUpdateTargetByTag|SecRuleUpdateOperatorById|SecRuleUpdateOperatorByTag)\\b"
+        },
+        {
+          "name": "keyword.control.directive.upload.seclang",
+          "match": "\\b(SecUploadDir|SecUploadFileLimit|SecUploadFileMode|SecUploadKeepFiles|SecTmpSaveUploadedFiles|SecTmpDir)\\b"
+        },
+        {
+          "name": "keyword.control.directive.misc.seclang",
+          "match": "\\b(SecDefaultAction|SecArgumentSeparator|SecArgumentsLimit|SecCookieFormat|SecCollectionTimeout|SecComponentSignature|SecDataDir|SecGeoLookupDb|SecHttpBlKey|SecPcreMatchLimit|SecPcreMatchLimitRecursion|SecRemoteRules|SecRemoteRulesFailAction|SecStatusEngine|SecUnicodeMapFile|SecWebAppId|SecXmlExternalEntity|SecParseXmlIntoArgs|SecMarker|Include)\\b"
+        }
+      ]
+    },
+    "variables": {
+      "patterns": [
+        {
+          "name": "variable.language.request.seclang",
+          "match": "\\b(ARGS|ARGS_GET|ARGS_POST|ARGS_NAMES|ARGS_GET_NAMES|ARGS_POST_NAMES|ARGS_COMBINED_SIZE|REQUEST_HEADERS|REQUEST_HEADERS_NAMES|REQUEST_COOKIES|REQUEST_COOKIES_NAMES|REQUEST_BODY|REQUEST_BODY_LENGTH|REQUEST_METHOD|REQUEST_URI|REQUEST_URI_RAW|REQUEST_FILENAME|REQUEST_BASENAME|REQUEST_PROTOCOL|REQUEST_LINE|QUERY_STRING|FULL_REQUEST|FULL_REQUEST_LENGTH)\\b"
+        },
+        {
+          "name": "variable.language.response.seclang",
+          "match": "\\b(RESPONSE_BODY|RESPONSE_HEADERS|RESPONSE_HEADERS_NAMES|RESPONSE_STATUS|RESPONSE_PROTOCOL|RESPONSE_CONTENT_LENGTH|RESPONSE_CONTENT_TYPE|STATUS_LINE)\\b"
+        },
+        {
+          "name": "variable.language.server.seclang",
+          "match": "\\b(REMOTE_ADDR|REMOTE_HOST|REMOTE_PORT|REMOTE_USER|SERVER_ADDR|SERVER_NAME|SERVER_PORT|AUTH_TYPE|PATH_INFO)\\b"
+        },
+        {
+          "name": "variable.language.multipart.seclang",
+          "match": "\\b(MULTIPART_FILENAME|MULTIPART_NAME|MULTIPART_PART_HEADERS|MULTIPART_CRLF_LF_LINES|MULTIPART_STRICT_ERROR|MULTIPART_UNMATCHED_BOUNDARY|MULTIPART_BOUNDARY_QUOTED|MULTIPART_BOUNDARY_WHITESPACE|MULTIPART_DATA_BEFORE|MULTIPART_DATA_AFTER|MULTIPART_HEADER_FOLDING|MULTIPART_LF_LINE|MULTIPART_MISSING_SEMICOLON|MULTIPART_INVALID_QUOTING|MULTIPART_INVALID_PART|MULTIPART_INVALID_HEADER_FOLDING|MULTIPART_FILE_LIMIT_EXCEEDED)\\b"
+        },
+        {
+          "name": "variable.language.file.seclang",
+          "match": "\\b(FILES|FILES_NAMES|FILES_SIZES|FILES_TMPNAMES|FILES_TMP_CONTENT|FILES_COMBINED_SIZE)\\b"
+        },
+        {
+          "name": "variable.language.error.seclang",
+          "match": "\\b(REQBODY_ERROR|REQBODY_ERROR_MSG|REQBODY_PROCESSOR|REQBODY_PROCESSOR_ERROR|INBOUND_DATA_ERROR|OUTBOUND_DATA_ERROR|URLENCODED_ERROR|HIGHEST_SEVERITY|MSC_PCRE_LIMITS_EXCEEDED)\\b"
+        },
+        {
+          "name": "variable.language.collection.seclang",
+          "match": "\\b(TX|GLOBAL|IP|SESSION|USER|RESOURCE|ENV|GEO|RULE|XML)\\b"
+        },
+        {
+          "name": "variable.language.matched.seclang",
+          "match": "\\b(MATCHED_VAR|MATCHED_VAR_NAME|MATCHED_VARS|MATCHED_VARS_NAMES)\\b"
+        },
+        {
+          "name": "variable.language.time.seclang",
+          "match": "\\b(TIME|TIME_EPOCH|TIME_YEAR|TIME_MON|TIME_DAY|TIME_HOUR|TIME_MIN|TIME_SEC|TIME_WDAY|DURATION)\\b"
+        },
+        {
+          "name": "variable.language.misc.seclang",
+          "match": "\\b(UNIQUE_ID|SESSIONID|USERID|WEBAPPID|MODSEC_BUILD)\\b"
+        },
+        {
+          "name": "variable.other.seclang",
+          "match": "%\\{[A-Za-z_][A-Za-z0-9_\\.:\\-]*\\}"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.string.seclang",
+          "match": "@(rx|rxGlobal|contains|beginsWith|endsWith|within|containsWord|streq|strmatch|pm|pmf|pmFromFile)"
+        },
+        {
+          "name": "keyword.operator.numeric.seclang",
+          "match": "@(eq|gt|lt|ge|le)"
+        },
+        {
+          "name": "keyword.operator.ip.seclang",
+          "match": "@(ipMatch|ipMatchF|ipMatchFromFile)"
+        },
+        {
+          "name": "keyword.operator.validation.seclang",
+          "match": "@(validateByteRange|validateUrlEncoding|validateUtf8Encoding|validateDtd|validateSchema|verifyCc|verifyCpf|verifySsn)"
+        },
+        {
+          "name": "keyword.operator.detection.seclang",
+          "match": "@(detectSQLi|detectXSS)"
+        },
+        {
+          "name": "keyword.operator.special.seclang",
+          "match": "@(unconditionalMatch|noMatch|inspectFile|fuzzyHash|geoLookup|rbl|rsub)"
+        },
+        {
+          "name": "keyword.operator.negation.seclang",
+          "match": "!@[a-zA-Z]+"
+        }
+      ]
+    },
+    "actions": {
+      "patterns": [
+        {
+          "name": "keyword.other.action.disruptive.seclang",
+          "match": "\\b(deny|pass|allow|drop|redirect|proxy|block|status)\\b"
+        },
+        {
+          "name": "keyword.other.action.logging.seclang",
+          "match": "\\b(log|nolog|auditlog|noauditlog)\\b"
+        },
+        {
+          "name": "keyword.other.action.metadata.seclang",
+          "match": "\\b(id|phase|msg|logdata|severity|tag|rev|ver|maturity|accuracy|status)\\b"
+        },
+        {
+          "name": "keyword.other.action.flow.seclang",
+          "match": "\\b(chain|skip|skipAfter|capture)\\b"
+        },
+        {
+          "name": "keyword.other.action.variable.seclang",
+          "match": "\\b(setvar|initcol|setsid|setuid|setrsc|setenv|deprecatevar|expirevar)\\b"
+        },
+        {
+          "name": "keyword.other.action.control.seclang",
+          "match": "\\b(ctl|exec|prepend|append|xmlns|multiMatch)\\b"
+        },
+        {
+          "name": "keyword.other.action.sanitize.seclang",
+          "match": "\\b(sanitiseArg|sanitiseMatched|sanitiseMatchedBytes|sanitiseRequestHeader|sanitiseResponseHeader)\\b"
+        }
+      ]
+    },
+    "transformations": {
+      "patterns": [
+        {
+          "name": "support.function.transformation.seclang",
+          "match": "t:(none|lowercase|uppercase|urlDecode|urlDecodeUni|urlEncode|removeWhitespace|compressWhitespace|hexDecode|hexEncode|base64Decode|base64Encode|base64DecodeExt|htmlEntityDecode|htmlEntityEncode|jsDecode|cssDecode|cmdLine|sha1|sha256|md5|length|normalisePath|normalizePath|normalisePathWin|normalizePathWin|replaceNulls|removeNulls|removeComments|removeCommentsChar|replaceComments|utf8toUnicode|parityEven7bit|parityOdd7bit|parityZero7bit|sqlHexDecode|trim|trimLeft|trimRight)"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.seclang",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.seclang",
+              "match": "\\\\."
+            },
+            {
+              "name": "variable.other.interpolated.seclang",
+              "match": "%\\{[^}]+\\}"
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.single.seclang",
+          "begin": "'",
+          "end": "'",
+          "patterns": [
+            {
+              "name": "constant.character.escape.seclang",
+              "match": "\\\\."
+            },
+            {
+              "name": "variable.other.interpolated.seclang",
+              "match": "%\\{[^}]+\\}"
+            }
+          ]
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.seclang",
+          "match": "\\b[0-9]+\\b"
+        }
+      ]
+    },
+    "regex": {
+      "patterns": [
+        {
+          "name": "string.regexp.seclang",
+          "match": "(?<=@rx\\s+|@rxGlobal\\s+)[^\"\\s]+"
+        }
+      ]
+    }
+  }
+}

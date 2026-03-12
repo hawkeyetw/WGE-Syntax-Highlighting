@@ -1,0 +1,104 @@
+{
+  "name": "seclang-vscode",
+  "displayName": "SecLang - ModSecurity Rules Language Support",
+  "description": "Syntax highlighting, code completion and snippets for SecLang/ModSecurity WAF rules",
+  "version": "1.0.0",
+  "publisher": "waf-security",
+  "author": {
+    "name": "WAF Security Engineer"
+  },
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Snippets"
+  ],
+  "keywords": [
+    "seclang",
+    "modsecurity",
+    "waf",
+    "security",
+    "firewall",
+    "owasp",
+    "crs"
+  ],
+  "activationEvents": [
+    "onLanguage:seclang"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "seclang",
+        "aliases": [
+          "SecLang",
+          "ModSecurity",
+          "seclang"
+        ],
+        "extensions": [
+          ".seclang",
+          ".modsec"
+        ],
+        "filenames": [
+          "modsecurity.conf",
+          "crs-setup.conf",
+          "modsec_rules.conf",
+          "custom-rules.conf"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "seclang",
+        "scopeName": "source.seclang",
+        "path": "./syntaxes/seclang.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "seclang",
+        "path": "./snippets/seclang.snippets.json"
+      }
+    ],
+    "configuration": {
+      "title": "SecLang",
+      "properties": {
+        "seclang.enableCompletions": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable SecLang code completions"
+        },
+        "seclang.enableHover": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable hover documentation for SecLang keywords"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts",
+    "package": "vsce package",
+    "gen-docs": "node scripts/generate-docs.js"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.74.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "typescript": "^5.0.0",
+    "@vscode/vsce": "^2.22.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HawkeyeTW/seclang-vscode"
+  },
+  "homepage": "https://hawkeyetw.github.io/wge/"
+}
