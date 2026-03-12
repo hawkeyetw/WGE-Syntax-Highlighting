@@ -1,6 +1,6 @@
 # SecLang for Visual Studio Code
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/HawkeyeTW/seclang-vscode)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/HawkeyeTW/WGE-Syntax-Highlighting)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 为 ModSecurity / SecLang WAF 规则语言提供开发支持的 VS Code 插件。
@@ -90,7 +90,7 @@ code --install-extension seclang-vscode-1.0.0.vsix
 ## 本地开发
 
 ```bash
-git clone https://github.com/HawkeyeTW/seclang-vscode.git
+git clone https://github.com/HawkeyeTW/WGE-Syntax-Highlighting.git
 cd seclang-vscode
 npm install
 npm run compile

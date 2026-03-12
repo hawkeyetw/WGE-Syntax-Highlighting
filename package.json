@@ -98,7 +98,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/HawkeyeTW/seclang-vscode"
+    "url": "https://github.com/HawkeyeTW/WGE-Syntax-Highlighting"
   },
   "homepage": "https://hawkeyetw.github.io/wge/"
 }
