@@ -1,6 +1,6 @@
 # SecLang for Visual Studio Code
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/HawkeyeTW/WGE-Syntax-Highlighting)
+[![Marketplace Version](https://vsmarketplacebadges.dev/version/BowenChen.seclang-vscode.svg)](https://marketplace.visualstudio.com/items?itemName=BowenChen.seclang-vscode)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 为 ModSecurity / SecLang WAF 规则语言提供开发支持的 VS Code 插件。
@@ -20,7 +20,7 @@
 
 **悬停文档** — 鼠标放到关键字上直接看用法和示例，不用切到浏览器查文档。文档根据 VS Code 语言设置自动切换中英文。
 
-**代码片段** — 提供 18 个常用规则模板，输入前缀按 Tab 就能展开。比如 `secrule-sqli` 直接生成一条 SQL 注入检测规则，`modsec-config` 生成完整的基础配置。
+**代码片段** — 提供 20 个常用规则模板，输入前缀按 Tab 就能展开。比如 `secrule-sqli` 直接生成一条 SQL 注入检测规则，`modsec-config` 生成完整的基础配置。
 
 <details>
 <summary>全部片段列表</summary>
@@ -55,8 +55,15 @@
 在 VS Code 扩展商店搜索 **SecLang** 安装，或者通过命令行：
 
 ```bash
-code --install-extension seclang-vscode-1.0.0.vsix
+code --install-extension BowenChen.seclang-vscode
 ```
+
+## 升级提示
+
+如果你之前安装过旧发布 ID 的版本，例如 `waf-security.seclang-vscode`，请先卸载旧扩展，再安装 `BowenChen.seclang-vscode`。  
+VS Code 会把不同 `publisher.name` 视为两个独立扩展，同时启用时会出现悬停文档、补全项重复的问题。
+
+如果你在 **Remote WSL / SSH / Dev Container** 里使用 VS Code，请只保留工作区侧的这一个扩展版本。这个扩展现在固定为 `workspace` 运行，避免本地侧和远端侧同时注册语言功能。
 
 ## 文件关联
 
@@ -77,7 +84,7 @@ code --install-extension seclang-vscode-1.0.0.vsix
 
 ```bash
 git clone https://github.com/HawkeyeTW/WGE-Syntax-Highlighting.git
-cd seclang-vscode
+cd WGE-Syntax-Highlighting
 npm install
 npm run compile
 ```

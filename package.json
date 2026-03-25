@@ -1,16 +1,24 @@
 {
   "name": "seclang-vscode",
-  "displayName": "SecLang - ModSecurity Rules Language Support",
+  "displayName": "SecLang - WGE Rules Language Support",
   "description": "Syntax highlighting, code completion and snippets for SecLang/ModSecurity WAF rules",
-  "version": "1.0.0",
-  "publisher": "waf-security",
+  "version": "1.0.6",
+  "publisher": "BowenChen",
   "author": {
     "name": "WAF Security Engineer"
   },
   "license": "MIT",
+  "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#1e1e1e",
+    "theme": "dark"
+  },
   "engines": {
     "vscode": "^1.74.0"
   },
+  "extensionKind": [
+    "workspace"
+  ],
   "categories": [
     "Programming Languages",
     "Snippets"
@@ -79,7 +87,7 @@
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "lint": "eslint src --ext ts",
-    "package": "vsce package",
+    "package": "vsce package --no-yarn --no-dependencies",
     "gen-docs": "node scripts/generate-docs.js"
   },
   "devDependencies": {
@@ -87,13 +95,17 @@
     "@types/vscode": "^1.74.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
+    "@vscode/vsce": "^2.22.0",
     "eslint": "^8.0.0",
-    "typescript": "^5.0.0",
-    "@vscode/vsce": "^2.22.0"
+    "sharp": "^0.34.5",
+    "typescript": "^5.0.0"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/HawkeyeTW/WGE-Syntax-Highlighting"
   },
-  "homepage": "https://hawkeyetw.github.io/wge/"
+  "homepage": "https://github.com/HawkeyeTW/WGE-Syntax-Highlighting",
+  "bugs": {
+    "url": "https://github.com/HawkeyeTW/WGE-Syntax-Highlighting/issues"
+  }
 }

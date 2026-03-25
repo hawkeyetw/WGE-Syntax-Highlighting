@@ -127,7 +127,7 @@
         },
         {
           "name": "keyword.operator.special.seclang",
-          "match": "@(unconditionalMatch|noMatch|inspectFile|fuzzyHash|geoLookup|rbl|rsub)"
+          "match": "@(unconditionalMatch|noMatch|inspectFile|fuzzyHash|geoLookup|rbl|rsub|xor)"
         },
         {
           "name": "keyword.operator.negation.seclang",
@@ -139,7 +139,7 @@
       "patterns": [
         {
           "name": "keyword.other.action.disruptive.seclang",
-          "match": "\\b(deny|pass|allow|drop|redirect|proxy|block|status)\\b"
+          "match": "\\b(deny|pass|allow|allow:phase|allow:request|drop|redirect|proxy|block|status)\\b"
         },
         {
           "name": "keyword.other.action.logging.seclang",
@@ -159,7 +159,7 @@
         },
         {
           "name": "keyword.other.action.control.seclang",
-          "match": "\\b(ctl|exec|prepend|append|xmlns|multiMatch)\\b"
+          "match": "\\b(ctl|exec|prepend|append|xmlns|multiMatch|t)\\b"
         },
         {
           "name": "keyword.other.action.sanitize.seclang",
@@ -171,7 +171,7 @@
       "patterns": [
         {
           "name": "support.function.transformation.seclang",
-          "match": "t:(none|lowercase|uppercase|urlDecode|urlDecodeUni|urlEncode|removeWhitespace|compressWhitespace|hexDecode|hexEncode|base64Decode|base64Encode|base64DecodeExt|htmlEntityDecode|htmlEntityEncode|jsDecode|cssDecode|cmdLine|sha1|sha256|md5|length|normalisePath|normalizePath|normalisePathWin|normalizePathWin|replaceNulls|removeNulls|removeComments|removeCommentsChar|replaceComments|utf8toUnicode|parityEven7bit|parityOdd7bit|parityZero7bit|sqlHexDecode|trim|trimLeft|trimRight)"
+          "match": "t:(none|lowercase|uppercase|urlDecode|urlDecodeUni|urlEncode|removeWhitespace|compressWhitespace|hexDecode|hexEncode|base64Decode|base64Encode|base64DecodeExt|htmlEntityDecode|htmlEntityEncode|jsDecode|cssDecode|cmdLine|cmdline|escapeSeqDecode|sha1|sha256|md5|length|normalisePath|normalizePath|normalisePathWin|normalizePathWin|replaceNulls|removeNulls|removeComments|removeCommentsChar|replaceComments|utf8toUnicode|utf8ToUnicode|parityEven7bit|parityOdd7bit|parityZero7bit|sqlHexDecode|trim|trimLeft|trimRight)"
         }
       ]
     },
